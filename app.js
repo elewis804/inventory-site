@@ -1,8 +1,11 @@
 const express = require( "express" );
+const logger = require( "morgan" );
 const app = express();
 const port = 6969;
 
-// define a route for the default home page
+app.use(logger("dev"));
+app.use(express.static(__dirname + '/public'));
+
 app.get( "/", ( req, res ) => {
     res.sendFile(__dirname + "/views/index.html" );
 } );
