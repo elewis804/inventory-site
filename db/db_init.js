@@ -9,8 +9,8 @@ const create_stuff_table_sql = `
     CREATE TABLE stuff
     (
         id          INT         NOT NULL AUTO_INCREMENT,
-        item        VARCHAR(45) NOT NULL,
-        quantity    INT         NOT NULL,
+        deck        VARCHAR(45) NOT NULL,
+        cards    INT         NOT NULL,
         description VARCHAR(150) NULL,
         PRIMARY KEY (id)
     );
