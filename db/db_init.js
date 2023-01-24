@@ -35,7 +35,7 @@ db.execute(read_stuff_table_sql,
         if (error)
             throw error;
 
-        console.log("Table 'deck' initialized with:")
+        console.log("Table 'stuff' initialized with:")
         console.log(results);
     }
 );
