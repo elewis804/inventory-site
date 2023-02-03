@@ -30,35 +30,31 @@
             <i class="material-icons right">edit</i>
             Edit
         </button>
-        <button class="btn red darken-1 waves-effect waves-light">
+        <a class="btn red darken-1 waves-effect waves-light" href="/list/item/<%= deckID %>/delete">
             <i class="material-icons right">delete</i>
             Delete
-        </button>
+        </a>
     </div>
     <div class="row">
         <div class="itemPageInfo">
             <div class="divider"></div>
             <div class="section">
                 <h5>Deck</h5>
-                <p>Blue-Eyes</p>
+                <p><%= name%></p>
             </div>
             <div class="divider"></div>
             <div class="section">
                 <h5>Description</h5>
-                <p>Focuses on Blue-Eyes White Dragon and other similar monsters. This deck mostly special summons Ritual
-                    and
-                    Fusion monsters.</p>
+                <p><%= description%></p>
             </div>
             <div class="divider"></div>
             <div class="section">
                 <h5>Cards Acquired: </h5>
-                <p>55</p>
+                <p><%= cards%></p>
             </div>
             <div class="divider"></div>
         </div>
-        <div>
-            <img src="/images/blue-eyes.png" class="cardImage">
-        </div>
+        <img src="/images/blue-eyes.png" class="cardImage">
     </div>
 </div>
 
@@ -66,7 +62,7 @@
 <div id="modal1" class="modal blue-grey darken-1 grey-text text-lighten-2">
     <div class="modal-content">
         <h2>Edit item:</h2>
-        <form>
+        <form method="post" action="/list/item/<%= deckID%>">
             <div class="row">
                 <div class="input-field col s6">
                     <label for="nameInput" class="grey-text text-lighten-2">Deck Name:</label>
