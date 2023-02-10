@@ -1,13 +1,17 @@
 const express = require( "express" );
 const logger = require( "morgan" );
 const app = express();
-const port = 6969;
-const db = require("./db/db_connection")
+const db = require("./db/db_pool")
+const helmet = require("helmet");
+const port = process.env.PORT || 6969;
+
+
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.static(__dirname + '/public'));
+app.use(helmet());
 
 app.use( express.urlencoded( { extended: false } ) );
 
