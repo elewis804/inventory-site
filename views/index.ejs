@@ -10,20 +10,53 @@
     <link rel="manifest" href="/site.webmanifest">
     <title>Task Inventory</title>
 
-     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <!--Import materialize.css-->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-     <!--Let browser know website is optimized for mobile-->
-     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-     <link rel="stylesheet" href="/stylesheets/imageStyles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body class="blue-grey darken-4 grey-text text-lighten-2">
-    <div class="container">
-        <h1>Welcome!</h1>
-        <h2>This is an Inventory of your Yu-Gi-Oh Master Duel Decks!</h2>
-        <a class="btn green accent-4 waves-effect waves-light" href="/list">Get Started!
-            <i class="material-icons right">arrow_forward</i>
-        </a>
-    </div>
+<header>
+    <nav>
+        <div class="nav-wrapper grey darken-1">
+            <a href="/" class="brand-logo">Deck Manager</a>
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <!-- Main nav, hidden for small screens -->
+            <ul id="desktop-nav" class="right hide-on-med-and-down">
+                <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
+                <li><a href="/list"><i class="material-icons left">list</i>Inventory</a></li>
+                <% if (isLoggedIn) { %>
+                    <li><a href="/profile"><i class="material-icons left">person</i> Hello, <%=user.name%></a></li>
+                    <li><a href="/logout" class="btn red">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/login" class="btn blue">Login</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+    <!-- Mobile nav menu, shown when menu button clicked -->
+    <ul id="mobile-nav" class="sidenav grey darken-1">
+        <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
+        <li><a href="/stuff"><i class="material-icons left">list</i>Inventory</a></li>
+        <% if (isLoggedIn) { %>
+            <li><a href="/profile"><i class="material-icons left">person</i> Hello, <%=user.name%></a></li>
+            <li><a href="/logout" class="btn red">Logout</a></li>
+        <% } else { %>
+            <li><a href="/login" class="btn blue">Login</a></li>
+        <% } %>
+    </ul>
+</header>
+<%if (isLoggedIn) { %>
+<h1 class="container">Welcome <%=user.name%>!</h1>
+<% } else { %>
+<h1 class="container">Welcome!</h1>
+<% } %>
+<div class="container">
+    <h2>This is an Inventory of your Yu-Gi-Oh Master Duel Decks!</h2>
+    <a class="btn green accent-4 waves-effect waves-light" href="/list">Get Started!
+        <i class="material-icons right">arrow_forward</i>
+    </a>
+</div>
 </body>

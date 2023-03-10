@@ -20,6 +20,36 @@
     <link rel="stylesheet" href="/stylesheets/generalStyles.css">
 </head>
 <body class="blue-grey darken-4 grey-text text-lighten-2">
+<header>
+    <nav>
+        <div class="nav-wrapper grey darken-1">
+            <a href="/" class="brand-logo">Deck Manager</a>
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <!-- Main nav, hidden for small screens -->
+            <ul id="desktop-nav" class="right hide-on-med-and-down">
+                <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
+                <li><a href="/list"><i class="material-icons left">list</i>Inventory</a></li>
+                <% if (isLoggedIn) { %>
+                <li><a href="/profile"><i class="material-icons left">person</i> Hello, <%=user.name%></a></li>
+                <li><a href="/logout" class="btn red">Logout</a></li>
+                <% } else { %>
+                <li><a href="/login" class="btn blue">Login</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+    <!-- Mobile nav menu, shown when menu button clicked -->
+    <ul id="mobile-nav" class="sidenav grey darken-1">
+        <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
+        <li><a href="/stuff"><i class="material-icons left">list</i>Inventory</a></li>
+        <% if (isLoggedIn) { %>
+        <li><a href="/profile"><i class="material-icons left">person</i> Hello, <%=user.name%></a></li>
+        <li><a href="/logout" class="btn red">Logout</a></li>
+        <% } else { %>
+        <li><a href="/login" class="btn blue">Login</a></li>
+        <% } %>
+    </ul>
+</header>
 <div class="container">
     <div class="row">
         <h1>Details:</h1>
@@ -58,11 +88,10 @@
     </div>
 </div>
 
-
 <div id="modal1" class="modal blue-grey darken-1 grey-text text-lighten-2">
     <div class="modal-content">
         <h2>Edit item:</h2>
-        <form method="post" action="/list/item/<%= deckID%>">
+        <form method="post" action="/list/item/<%=deckID%>">
             <div class="row">
                 <div class="input-field col s6">
                     <label for="nameInput" class="grey-text text-lighten-2">Deck Name:</label>
@@ -77,9 +106,9 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <label for="descriptionInput" class="grey-text text-lighten-2">Item Description:</label>
+                    <label for="descriptionInput" class="grey-text text-lighten-2">Deck Description:</label>
                     <input type="text" name="description" id="descriptionInput" class="grey-text text-lighten-2"
-                           data-length="100">
+                           data-length="200">
                 </div>
             </div>
             <div class="modal-footer blue-grey darken-1">
@@ -87,10 +116,11 @@
                     <i class="material-icons right">send</i>
                     Submit
                 </button>
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat grey-text text-lighten-2">Cancel</a>
+                <a href="#!"
+                   class="modal-close waves-effect waves-green btn-flat grey-text text-lighten-2">Cancel</a>
             </div>
         </form>
     </div>
 </div>
-<script>M.AutoInit();</script>
+<script src="/scripts/initialize_materialize.js"></script>
 </body>
