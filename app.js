@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const {auth, requiresAuth} = require('express-openid-connect');
 const port = process.env.PORT || 6969;
 const dotenv = require("dotenv");
+const req = require("express/lib/request");
 
 dotenv.config();
 
@@ -56,12 +57,31 @@ app.get("/", (req, res) => {
     res.render("index");
 });
 
+const read_all_sql = `
+    SELECT deckID, name, cards, Category.catName as category FROM decks 
+    JOIN Category
+        on Category.catID = decks.category
+    WHERE decks.useremail = ?;
+`
+const read_categories_sql = `
+select * from Category
+where Category.useremail = "all"
+	OR Category.useremail = ?
+`
+
+
 app.get("/list", requiresAuth(), (req, res) => {
-    db.execute("SELECT deckID, name, cards FROM decks WHERE decks.userEmail = ?;", [req.oidc.user.email], (error, results) => {
+    db.execute(read_all_sql, [req.oidc.user.email], (error, results) => {
         if (error) {
             res.status(500).send(error);
         } else {
-            res.render("list", {inventory: results});
+            db.execute(read_categories_sql, [req.oidc.user.email], (error2, results2) => {
+                if (error2) {
+                    res.status(500).send(error2);
+                } else {
+                    res.render("list", {inventory: results, categoryList: results2});
+                }
+            })
         }
     })
 });
@@ -106,11 +126,12 @@ app.get("/list/item/:id/delete", requiresAuth(), (req, res) => {
 
 const post_item_sql = `
     INSERT INTO decks
-        (name, cards, description, userEmail)
-    VALUES (?, ?, ?, ?)
+        (name, cards, description, userEmail, category)
+    VALUES (?, ?, ?, ?, ?)
 `
 app.post("/list", requiresAuth(), (req, res) => {
-    db.execute(post_item_sql, [req.body.name, req.body.quantity, req.body.description, req.oidc.user.email], (error, results) => {
+    console.log(req.body);
+    db.execute(post_item_sql, [req.body.name, req.body.quantity, req.body.description, req.oidc.user.email, req.body.category], (error, results) => {
         if (error) {
             res.status(500).send(error);
         } else if (results.length === 0) {
@@ -142,6 +163,58 @@ app.post("/list/item/:id", requiresAuth(), (req, res) => {
         }
     })
 })
+
+app.get("/category", requiresAuth(), (req, res) => {
+    db.execute(read_categories_sql, [req.oidc.user.email], (error, results) => {
+        if (error) {
+            res.status(500).send(error);
+        }
+        else {
+            res.render("category", {categories: results})
+        }
+    })
+})
+
+const post_category_sql = `
+    INSERT INTO Category
+        (catName, useremail)
+    VALUES (?,?)
+`
+
+app.post("/category", requiresAuth(), (req, res) => {
+    db.execute(post_category_sql, [req.body.name, req.oidc.user.email], (error, results) => {
+        if (error) {
+            res.status(500).send(error);
+        }
+        else if (results.length === 0) {
+            res.status(404).send("Not found");
+        }
+        else {
+            res.redirect("/category")
+        }
+    })
+})
+
+const delete_category_sql = `
+    DELETE
+    FROM Category
+    WHERE  catID = ?
+      AND useremail = ?;
+`
+app.get("/category/:id/delete", requiresAuth(), (req, res) => {
+    db.execute(delete_category_sql, [req.params.id, req.oidc.user.email], (error, results) => {
+        if (error) {
+            res.status.send(error);
+        }
+        else if (results.length === 0) {
+            res.status(404).send("Not Found");
+        }
+        else {
+            res.redirect("/category")
+        }
+    })
+})
+
 
 // start the server
 app.listen(port, () => {

@@ -29,6 +29,7 @@
             <ul id="desktop-nav" class="right hide-on-med-and-down">
                 <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
                 <li><a href="/list"><i class="material-icons left">list</i>Inventory</a></li>
+                <li><a href="/category">Categories</a></li>
                 <% if (isLoggedIn) { %>
                 <li><a href="/profile"><i class="material-icons left">person</i> Hello, <%=user.name%></a></li>
                 <li><a href="/logout" class="btn red">Logout</a></li>
@@ -42,6 +43,7 @@
     <ul id="mobile-nav" class="sidenav grey darken-1">
         <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
         <li><a href="/stuff"><i class="material-icons left">list</i>Inventory</a></li>
+        <li><a href="/category">Categories</a></li>
         <% if (isLoggedIn) { %>
         <li><a href="/profile"><i class="material-icons left">person</i> Hello, <%=user.name%></a></li>
         <li><a href="/logout" class="btn red">Logout</a></li>

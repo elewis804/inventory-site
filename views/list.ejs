@@ -27,6 +27,7 @@
             <ul id="desktop-nav" class="right hide-on-med-and-down">
                 <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
                 <li><a href="/list"><i class="material-icons left">list</i>Inventory</a></li>
+                <li><a href="/category">Categories</a></li>
                 <% if (isLoggedIn) { %>
                     <li><a href="/profile"><i class="material-icons left">person</i> Hello, <%=user.name%></a></li>
                     <li><a href="/logout" class="btn red">Logout</a></li>
@@ -40,6 +41,7 @@
     <ul id="mobile-nav" class="sidenav grey darken-1">
         <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
         <li><a href="/stuff"><i class="material-icons left">list</i>Inventory</a></li>
+        <li><a href="/category">Categories</a></li>
         <% if (isLoggedIn) { %>
             <li><a href="/profile"><i class="material-icons left">person</i> Hello, <%=user.name%></a></li>
             <li><a href="/logout" class="btn red">Logout</a></li>
@@ -58,6 +60,9 @@
                 <p>Cards Acquired: <%= inventory[i].cards %></p>
             </div>
         </a>
+        <div class="card-action white-text">
+            <a class="btn blue lighten-1 waves-effect waves-light"><%= inventory[i].category %></a>
+        </div>
         <div class="card-action white-text">
             <a class="btn red darken-1 waves-effect waves-light" href="/list/item/<%= inventory[i].deckID %>/delete">
                 <i class="material-icons right">delete</i>
@@ -84,7 +89,16 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="input-field col s6" style="width:200px">
+                        <select id="categoryInput" name="category" id="categoryInput" size="4">
+                            <option value="" disabled selected>Choose your category</option>
+                            <% for (let i = 0; i < categoryList.length; i++) { %>
+                                <option value=<%=categoryList[i].catID %>><%= categoryList[i].catName %></option>
+                            <% } %>
+                        </select>
+                        <label for="subjectInput">Category:</label>
+                    </div>
+                    <div class="input-field col s6">
                         <label for="descriptionInput" class="grey-text text-lighten-2">Deck Description:</label>
                         <input type="text" name="description" id="descriptionInput" class="grey-text text-lighten-2"
                                data-length="200">
